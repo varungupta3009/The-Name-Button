@@ -1,0 +1,147 @@
+<!-- 
+  THE STANLEY PARABLE "JIM" BUTTON
+  A zero-dependency, fully accessible, CSS-animated SVG web component.
+-->
+
+<svg
+  id="sp-jim-svg"
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 200 200"
+  width="200"
+  height="200"
+  class="sp-jim-button"
+  role="button"
+  aria-label="Press to hear Jim"
+  tabindex="0"
+>
+  <metadata>
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      xmlns:dc="http://purl.org/dc/elements/1.1/">
+      <rdf:Description
+        dc:title="The Name Button (The Stanley Parable: Ultra Deluxe)"
+        dc:creator="https://github.com/varungupta3009"
+        dc:description="A lightweight, self-contained, CSS-animated SVG replica of `The button that says the name of the player that is playing the game™` from The Stanley Parable: Ultra Deluxe." />
+    </rdf:RDF>
+  </metadata>
+
+  <style>
+    .sp-jim-button {
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      outline: none;
+      filter: drop-shadow(0px 8px 6px rgba(0, 0, 0, 0.3));
+      transition:
+        filter 0.1s ease,
+        transform 0.1s ease;
+      /* Ensure the SVG scales naturally within its container */
+      max-width: 100%;
+      height: auto;
+    }
+
+    .sp-jim-button:focus-visible circle:nth-child(2) {
+      outline: 8px solid #4a90e2;
+      border-radius: 50%;
+    }
+
+    /* Handles physical compression for both mouse (:active) and keyboard (.pressed) */
+    .sp-jim-button:active,
+    .sp-jim-button.pressed {
+      filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.4));
+      transform: translateY(2px);
+    }
+
+    /* The 3D flattening effect */
+    .sp-btn-top {
+      transition: transform 0.08s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateY(-8px);
+    }
+
+    .sp-jim-button:active .sp-btn-top,
+    .sp-jim-button.pressed .sp-btn-top {
+      transform: translateY(0px);
+    }
+
+    .sp-name-text {
+      font-family: "Arial Black", Impact, sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      fill: #111;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+  </style>
+
+  <!-- Static Base Housing -->
+  <circle cx="100" cy="108" r="85" fill="#050505" />
+  <circle cx="100" cy="100" r="85" fill="#2a2a2a" />
+  <circle
+    cx="100"
+    cy="100"
+    r="72"
+    fill="#151515"
+    stroke="#0a0a0a"
+    stroke-width="3"
+  />
+
+  <!-- Stationary Button Thickness (Creates the 3D depth) -->
+  <circle cx="100" cy="100" r="69" fill="#b38000" />
+
+  <!-- Animated Button Surface -->
+  <g class="sp-btn-top">
+    <circle cx="100" cy="100" r="69" fill="#ffcc00" />
+    <g transform="translate(100, 100)">
+      <path
+        d="M -42 0 C -42 -18, -22 -32, 0 -32 C 22 -32, 42 -18, 42 0 C 42 18, 22 32, 0 32 C -10 32, -18 29, -26 24 L -40 38 L -34 22 C -39 16, -42 8, -42 0 Z"
+        fill="#ffcc00"
+        stroke="#111"
+        stroke-width="5"
+        stroke-linejoin="round"
+      />
+      <text x="0" y="3" class="sp-name-text">NAME</text>
+    </g>
+  </g>
+
+  <script>
+    <![CDATA[
+      (function () {
+        const svg = document.documentElement;
+
+        const audio = new Audio(
+          "data:audio/ogg;base64,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",
+        );
+        audio.preload = "auto";
+
+        function playSound() {
+          audio.currentTime = 0;
+          audio
+            .play()
+            .catch((e) => console.warn("Audio play blocked by browser:", e));
+        }
+
+        svg.addEventListener("pointerdown", playSound);
+
+        // --- KEYBOARD ACCESSIBILITY ONLY ---
+        svg.addEventListener("keydown", (e) => {
+          if (e.key === " " || e.key === "Enter") {
+            e.preventDefault(); // Prevents page scroll on Space
+            if (!svg.classList.contains("pressed")) {
+              svg.classList.add("pressed");
+              playSound();
+            }
+          }
+        });
+
+        svg.addEventListener("keyup", (e) => {
+          if (e.key === " " || e.key === "Enter") {
+            svg.classList.remove("pressed");
+          }
+        });
+
+        svg.addEventListener("blur", () => svg.classList.remove("pressed"));
+      })();
+    ]]>
+  </script>
+</svg>
